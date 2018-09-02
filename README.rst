@@ -1,7 +1,7 @@
-The official Django library for the `IPInfo <https://ipinfo.io/>`_ API.
+The official Django library for the `IPinfo <https://ipinfo.io/>`_ API.
 ###########################################################################
 
-`ipinfo_django` is a Django middleware plugin for the IPInfo API, which provides up-to-date IP address data. It intercepts the `HttpRequest` object and adds the attribute `HttpRequest.ipinfo`, which is an `IPInfo.Details` object.
+`ipinfo_django` is a Django middleware plugin for the IPinfo API, which provides up-to-date IP address data. It intercepts the `HttpRequest` object and adds the attribute `HttpRequest.ipinfo`, which is an `IPinfo.Details` object.
 
 .. contents::
 
@@ -59,7 +59,7 @@ Setup can be accomplished in three steps:
 
 Details Data
 =============
-`HttpRequest.ipinfo` will return a `Details` object that contains all fields listed `IPInfo developer docs <https://ipinfo.io/developers/responses#full-response>`_ with a few minor additions. Properties can be accessed directly.
+`HttpRequest.ipinfo` will return a `Details` object that contains all fields listed `IPinfo developer docs <https://ipinfo.io/developers/responses#full-response>`_ with a few minor additions. Properties can be accessed directly.
 
 >>> request.ipinfo.hostname
 cpe-104-175-221-247.socal.res.rr.com
@@ -132,7 +132,7 @@ Accessing all properties
 
 Authentication
 ==============
-The IPInfo library can be authenticated with your IPInfo API token, which is set in the `settings.py` file. It also works without an authentication token, but in a more limited capacity. From `settings.py`::
+The IPinfo library can be authenticated with your IPinfo API token, which is set in the `settings.py` file. It also works without an authentication token, but in a more limited capacity. From `settings.py`::
 
     IPINFO_TOKEN = '123456789abc'
 
