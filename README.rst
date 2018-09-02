@@ -190,7 +190,7 @@ To turn off filtering::
     
     IPINFO_FILTER = None
     
-To set your own filtering rules, _thereby replacing the default filter, you can set `settings.IPINFO_FILTER` to your own, custom callable function which satisfies the following rules:
+To set your own filtering rules, *thereby replacing the default filter*, you can set `settings.IPINFO_FILTER` to your own, custom callable function which satisfies the following rules:
 
 * Accepts one request.
 * Returns *True to filter out, False to allow lookup*
