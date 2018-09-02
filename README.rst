@@ -36,7 +36,7 @@ Setup can be accomplished in three steps:
 
 >>> pip install ipinfo_django
 
-2. Add to `'ipinfo_django.middleware.ipinfo'` to `settings.MIDDLEWARE` in `settings.py`::
+2. Add `'ipinfo_django.middleware.ipinfo'` to `settings.MIDDLEWARE` in `settings.py`::
 
     MIDDLEWARE = [
         'django.middleware.security.SecurityMiddleware',
@@ -59,7 +59,7 @@ Setup can be accomplished in three steps:
 
 Details Data
 =============
-`HttpRequest.ipinfo` will return a `Details` object that contains all fields listed `IPinfo developer docs <https://ipinfo.io/developers/responses#full-response>`_ with a few minor additions. Properties can be accessed directly.
+`HttpRequest.ipinfo` is a `Details` object that contains all fields listed `IPinfo developer docs <https://ipinfo.io/developers/responses#full-response>`_ with a few minor additions. Properties can be accessed directly.
 
 >>> request.ipinfo.hostname
 cpe-104-175-221-247.socal.res.rr.com
