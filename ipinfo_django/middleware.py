@@ -2,7 +2,7 @@ from django.conf import settings
 from django.utils.deprecation import MiddlewareMixin
 import ipinfo_wrapper
 
-class ipinfo(MiddlewareMixin):
+class IPinfo(MiddlewareMixin):
 
     def __init__(self, get_response=None):
         self.get_response = get_response
