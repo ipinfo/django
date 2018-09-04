@@ -12,7 +12,7 @@ class IPinfo(MiddlewareMixin):
         self.ipinfo_wrapper = ipinfo_wrapper.getHandler(ipinfo_token, **ipinfo_settings)
 
     def process_request(self, request):
-        if self.filter(request):
+        if self.filter and self.filter(request):
             request.ipinfo = None
         else:
             request.ipinfo = self.ipinfo_wrapper.getDetails()
