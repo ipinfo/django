@@ -42,7 +42,7 @@ Setup can be accomplished in three steps:
         'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         ...
-        'ipinfo_django.middleware.ipinfo',
+        'ipinfo_django.middleware.IPinfo',
     ]
 
 3. Optionally, configure with custom settings in `settings.py`::
