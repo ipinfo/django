@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='ipinfo_django',
-      version='0.1.0',
+      version='0.1.1',
       description='Official Django library for IPInfo',
       url='https://github.com/ipinfo/django',
       author='James Timmins',
