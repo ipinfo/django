@@ -17,8 +17,8 @@ Once configured, `ipinfo_django` will make IP address data accessible within Dja
     def location(request):
         response_string = 'The IP address {} is located at the coordinates {}, which is in the city {}.'.format(
             request.ipinfo.ip,
-            request.ipinfo.city,
-            request.ipinfo.loc
+            request.ipinfo.loc,
+            request.ipinfo.city
         )
 
     return HttpResponse(response_string)
