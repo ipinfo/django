@@ -19,9 +19,7 @@ The free plan is limited to 1,000 requests a day, and doesn't include some of th
 pip install ipinfo_django
 ```
 
-`ipinfo_django` is a Django middleware plugin for the IPinfo API, which provides up-to-date IP address data. It intercepts the `HttpRequest` object and adds the attribute `HttpRequest.ipinfo`, which is an `IPinfo.Details` object.
-
-### Usage
+#### Quickstart
 
 Once configured, `ipinfo_django` will make IP address data accessible within Django's `HttpRequest` object. The following view from the `view.py` file:
 
