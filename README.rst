@@ -138,7 +138,7 @@ The IPinfo library can be authenticated with your IPinfo API token, which is set
 
 Caching
 =======
-In-memory caching of ```details` data is provided by default via the `cachetools <https://cachetools.readthedocs.io/en/latest/>`_ library. This uses an LRU (least recently used) cache with a TTL (time to live) by default. This means that values will be cached for the specified duration; if the cache's max size is reached, cache values will be invalidated as necessary, starting with the oldest cached value.
+In-memory caching of ``details`` data is provided by default via the `cachetools <https://cachetools.readthedocs.io/en/latest/>`_ library. This uses an LRU (least recently used) cache with a TTL (time to live) by default. This means that values will be cached for the specified duration; if the cache's max size is reached, cache values will be invalidated as necessary, starting with the oldest cached value.
 
 Modifying cache options
 -----------------------
