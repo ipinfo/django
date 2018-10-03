@@ -13,6 +13,6 @@ setup(name='ipinfo_django',
       packages=['ipinfo_django'],
       install_requires=[
         'django',
-        'ipinfo_wrapper',
+        'ipinfo',
       ],
       zip_safe=False)

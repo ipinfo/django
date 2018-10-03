@@ -182,7 +182,7 @@ IPINFO_SETTINGS = {
 
 #### Using a different cache
 
-It's possible to use a custom cache by creating a child class of the [CacheInterface](https://github.com/ipinfo/python/blob/master/ipinfo_wrapper/cache/interface.py) class and setting the `cache` value in `settings.IPINFO_SETTINGS`. FYI this is known as [the Strategy Pattern](https://sourcemaking.com/design_patterns/strategy).
+It's possible to use a custom cache by creating a child class of the [CacheInterface](https://github.com/ipinfo/python/blob/master/ipinfo/cache/interface.py) class and setting the `cache` value in `settings.IPINFO_SETTINGS`. FYI this is known as [the Strategy Pattern](https://sourcemaking.com/design_patterns/strategy).
 
 From `settings.py`:
 

@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.utils.deprecation import MiddlewareMixin
-import ipinfo_wrapper
+import ipinfo
 
 
 class IPinfo(MiddlewareMixin):
@@ -13,7 +13,7 @@ class IPinfo(MiddlewareMixin):
 
         ipinfo_token = getattr(settings, 'IPINFO_TOKEN', None)
         ipinfo_settings = getattr(settings, 'IPINFO_SETTINGS', {})
-        self.ipinfo_wrapper = ipinfo_wrapper.getHandler(ipinfo_token, **ipinfo_settings)
+        self.ipinfo = ipinfo.getHandler(ipinfo_token, **ipinfo_settings)
 
     def process_request(self, request):
         """Middleware hook that acts on and modifies request object."""
@@ -21,7 +21,7 @@ class IPinfo(MiddlewareMixin):
         if self.filter and self.filter(request):
             request.ipinfo = None
         else:
-            request.ipinfo = self.ipinfo_wrapper.getDetails()
+            request.ipinfo = self.ipinfo.getDetails()
 
     def is_bot(self, request):
         """Whether or not the request user-agent self-identifies as a bot"""
