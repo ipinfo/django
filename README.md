@@ -1,11 +1,11 @@
 # [<img src="https://ipinfo.io/static/ipinfo-small.svg" alt="IPinfo" width="24"/>](https://ipinfo.io/) IPinfo Django Client Library
 
 This is the official Django client library for the [IPinfo.io](https://ipinfo.io) IP address API, allowing you to lookup your own IP address, or get any of the following details for an IP:
- - IP geolocation (city, region, country, postal code, latitude and longitude)
- - ASN details (ISP or network operator, associated domain name, and type, such as business, hosting or company)
- - Company details (the name and domain of the business that uses the IP address)
- - Carrier details (the name of the mobile carrier and MNC and MCC for that carrier if the IP is used exclusively for mobile traffic)
 
+- IP geolocation (city, region, country, postal code, latitude and longitude)
+- ASN details (ISP or network operator, associated domain name, and type, such as business, hosting or company)
+- Company details (the name and domain of the business that uses the IP address)
+- Carrier details (the name of the mobile carrier and MNC and MCC for that carrier if the IP is used exclusively for mobile traffic)
 
 ### Getting Started
 
@@ -15,7 +15,7 @@ The free plan is limited to 1,000 requests a day, and doesn't include some of th
 
 #### Installation
 
-``` sh
+```bash
 pip install ipinfo_django
 ```
 
@@ -23,7 +23,7 @@ pip install ipinfo_django
 
 Once configured, `ipinfo_django` will make IP address data accessible within Django's `HttpRequest` object. The following view from the `view.py` file:
 
-``` python
+```python
 from django.http import HttpResponse
 
 def location(request):
@@ -38,7 +38,7 @@ def location(request):
 
 will return the following as an `HttpResponse` object:
 
-``` python
+```python
 'The IP address 216.239.36.21 is located at the coordinates 37.8342,-122.2900, which is in the city Emeryville.'
 ```
 
@@ -48,40 +48,40 @@ Setup can be accomplished in three steps:
 
 1. Install with `pip`
 
-``` sh
-pip install ipinfo_django
-```
+    ```bash
+    pip install ipinfo_django
+    ```
 
-2. Add `'ipinfo_django.middleware.ipinfo'` to `settings.MIDDLEWARE` in `settings.py`:
+1. Add `'ipinfo_django.middleware.ipinfo'` to `settings.MIDDLEWARE` in `settings.py`:
 
-``` python
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    ...
-    'ipinfo_django.middleware.IPinfo',
+    ```python
+    MIDDLEWARE = [
+        'django.middleware.security.SecurityMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        ...
+        'ipinfo_django.middleware.IPinfo',
     ]
-```
+    ```
 
-3. Optionally, configure with custom settings in `settings.py`:
+1. Optionally, configure with custom settings in `settings.py`:
 
-``` python
-IPINFO_TOKEN = '123456789abc'
-IPINFO_SETTINGS = {
-                    'cache_options': {
-                        'ttl':30,
-                        'maxsize': 128
-                    },
-                    'countries_file': 'custom_countries.json'
-                }
-IPINFO_FILTER = lambda request: request.scheme == 'http'
-```
+    ```python
+    IPINFO_TOKEN = '123456789abc'
+    IPINFO_SETTINGS = {
+        'cache_options': {
+            'ttl':30,
+            'maxsize': 128
+        },
+        'countries_file': 'custom_countries.json'
+    }
+    IPINFO_FILTER = lambda request: request.scheme == 'http'
+    ```
 
 ### Details Data
 
 `HttpRequest.ipinfo` is a `Details` object that contains all fields listed [IPinfo developer docs](https://ipinfo.io/developers/responses#full-response) with a few minor additions. Properties can be accessed directly.
 
-```
+```python
 >>> request.ipinfo.hostname
 cpe-104-175-221-247.socal.res.rr.com
 ```
@@ -90,7 +90,7 @@ cpe-104-175-221-247.socal.res.rr.com
 
 `HttpRequest.ipinfo.country_name` will return the country name, as supplied by the `countries.json` file. See below for instructions on changing that file for use with non-English languages. `HttpRequest.ipinfo.country` will still return country code.
 
-```
+```python
 >>> request.ipinfo.country
 US
 >>> request.ipinfo.country_name
@@ -99,24 +99,20 @@ United States
 
 #### IP Address
 
-`HttpRequest.ipinfo.ip_address` will return the an `ipaddress` object from the [Python Standard Library](https://docs.python.org/3/library/ipaddress.html). `details.ip` will still return a string.
+`HttpRequest.ipinfo.ip` will return an IP string.
 
-```
+```python
 >>> request.ipinfo.ip
 104.175.221.247
 >>> type(request.ipinfo.ip)
 <class 'str'>
->>> request.ipinfo.ip_address
-104.175.221.247
->>> type(request.ipinfo.ip_address)
-<class 'ipaddress.IPv4Address'>
 ```
 
 #### Longitude and Latitude
 
 `HttpRequest.ipinfo.latitude` and `HttpRequest.ipinfo.longitude` will return latitude and longitude, respectively, as strings. `HttpRequest.ipinfo.loc` will still return a composite string of both values.
 
-```
+```python
 >>> request.ipinfo.loc
 34.0293,-118.3570
 >>> request.ipinfo.latitude
@@ -129,8 +125,8 @@ United States
 
 `HttpRequest.ipinfo.all` will return all details data as a dictionary.
 
-``` python
-# >>> request.ipinfo.all
+```python
+>>> request.ipinfo.all
 {
 'asn': {  'asn': 'AS20001',
            'domain': 'twcable.com',
@@ -145,7 +141,6 @@ United States
 'country_name': 'United States',
 'hostname': 'cpe-104-175-221-247.socal.res.rr.com',
 'ip': '104.175.221.247',
-'ip_address': IPv4Address('104.175.221.247'),
 'loc': '34.0293,-118.3570',
 'latitude': '34.0293',
 'longitude': '-118.3570',
@@ -159,7 +154,7 @@ United States
 
 The IPinfo library can be authenticated with your IPinfo API token, which is set in the `settings.py` file. It also works without an authentication token, but in a more limited capacity. From `settings.py`:
 
-``` python
+```python
 IPINFO_TOKEN = '123456789abc'
 ```
 
@@ -171,14 +166,17 @@ In-memory caching of `details` data is provided by default via the `cachetools <
 
 Cache behavior can be modified by setting the `cache_options` key in `settings.IPINFO_SETTINGS`. `cache_options` is a dictionary in which the keys are keyword arguments specified in the `cachetools` library. The nesting of keyword arguments is to prevent name collisions between this library and its dependencies.
 
-* Default maximum cache size: 4096 (multiples of 2 are recommended to increase efficiency)
-* Default TTL: 24 hours (in seconds)
+- Default maximum cache size: 4096 (multiples of 2 are recommended to increase efficiency)
+- Default TTL: 24 hours (in seconds)
 
 From `settings.py`:
 
-``` python
+```python
 IPINFO_SETTINGS = {
-    'cache_options': {'ttl':30, 'maxsize': 128},
+    'cache_options': {
+        'ttl': 30,
+        'maxsize': 128
+    }
 }
 ```
 
@@ -188,7 +186,7 @@ It's possible to use a custom cache by creating a child class of the [CacheInter
 
 From `settings.py`:
 
-``` python
+```python
 IPINFO_SETTINGS = {'cache': my_fancy_custom_cache_object}
 ```
 
@@ -198,19 +196,19 @@ When looking up an IP address, the response object includes a `details.country_n
 
 The file must be a `.json` file with the following structure:
 
-``` js
+```js
 {
- "BD": "Bangladesh",
- "BE": "Belgium",
- "BF": "Burkina Faso",
- "BG": "Bulgaria"
- // …
+    "BD": "Bangladesh",
+    "BE": "Belgium",
+    "BF": "Burkina Faso",
+    "BG": "Bulgaria"
+    // …
 }
 ```
 
 From `settings.py`:
 
-``` python
+```python
 IPINFO_SETTINGS = {'countries_file': 'custom_countries.json'}
 ```
 
@@ -220,18 +218,18 @@ By default, `ipinfo_django` filters out requests that have `bot` or `spider` in 
 
 To turn off filtering:
 
-``` python
+```python
 IPINFO_FILTER = None
 ```
 
 To set your own filtering rules, *thereby replacing the default filter*, you can set `settings.IPINFO_FILTER` to your own, custom callable function which satisfies the following rules:
 
-* Accepts one request.
-* Returns *True to filter out, False to allow lookup*
+- Accepts one request.
+- Returns *True to filter out, False to allow lookup*
 
 To use your own filter rules:
 
-``` python
+```python
 IPINFO_FILTER = lambda request: request.scheme == 'http'
 ```
 
