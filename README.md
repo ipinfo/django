@@ -233,6 +233,12 @@ To use your own filter rules:
 IPINFO_FILTER = lambda request: request.scheme == 'http'
 ```
 
+### Errors
+
+If there's an error while making a request to IPinfo (e.g. your token was rate
+limited, there was a network issue, etc.), then the traceback will be logged
+using the built-in Python logger, and `HttpRequest.ipinfo` will be `None`.
+
 ### Other Libraries
 
 There are official IPinfo client libraries available for many languages including PHP, Go, Java, Ruby, and many popular frameworks such as Django, Rails and Laravel. There are also many third party libraries and integrations available for our API.
