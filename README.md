@@ -42,6 +42,37 @@ will return the following as an `HttpResponse` object:
 'The IP address 216.239.36.21 is located at the coordinates 37.8342,-122.2900, which is in the city Emeryville.'
 ```
 
+To get the details of user defined IP, we will import ipinfo package directly to the `view.py` file:
+```python
+from django.shortcuts import render
+from django.http import HttpResponse 
+from django.conf import settings
+import ipinfo
+
+
+
+def get_ip_details(ip_address=None):
+	ipinfo_token = getattr(settings, "IPINFO_TOKEN", None)
+	ipinfo_settings = getattr(settings, "IPINFO_SETTINGS", {})
+	ip_data = ipinfo.getHandler(ipinfo_token, **ipinfo_settings)
+	ip_data = ip_data.getDetails(ip_address)
+	return ip_data
+
+def location(request): 
+
+	ip_data = get_ip_details('168.156.54.5')
+
+	response_string = 'The IP address {} is located at the coordinates {}, which is in the city {}.'.format(ip_data.ip,ip_data.loc,ip_data.city)
+
+	return HttpResponse(response_string)
+
+```
+
+The above code will print the IP details provide. We can use GET and POST methods to get the details of user defined IP
+```python
+'The IP address 168.156.54.5 is located at the coordinates 47.6104,-122.2007, which is in the city Bellevue.'
+```
+
 ### Setup
 
 Setup can be accomplished in three steps:
