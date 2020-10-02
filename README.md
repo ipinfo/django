@@ -46,6 +46,7 @@ will return the following as an `HttpResponse` object:
 
 To get the details of user defined IP, we will import ipinfo package directly to the `view.py` file:
 ```python
+
 from django.shortcuts import render
 from django.http import HttpResponse 
 from django.conf import settings
