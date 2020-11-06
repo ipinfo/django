@@ -10,7 +10,9 @@ LOGGER = logging.getLogger(__name__)
 
 class IPinfo(MiddlewareMixin):
     def __init__(self, get_response=None):
-        """Initializes class while gettings user settings and creating the cache."""
+        """
+        Initializes class while gettings user settings and creating the cache.
+        """
         self.get_response = get_response
         self.filter = getattr(settings, "IPINFO_FILTER", self.is_bot)
 
