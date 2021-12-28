@@ -1,0 +1,4 @@
+django
+pytest
+pytest-asyncio
+pytest-django
