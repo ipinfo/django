@@ -9,7 +9,8 @@ def is_bot(request):
 
 
 def get_ip(request):
-    """Determine what ip address to query for depending on whether we are behind a reverse proxy or not."""
-    if request.META.get(HTTP_X_FORWARDED_FOR):
-        return request.META.get(HTTP_X_FORWARDED_FOR)
+    """Determine what IP to query for depending on whether we are behind a reverse proxy or not."""
+    x_forwarded_for = request.META.get(HTTP_X_FORWARDED_FOR)
+    if x_forwarded_for:
+        return x_forwarded_for.split(',')[0]
     return request.META.get(REMOTE_ADDR)
