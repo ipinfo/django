@@ -6,4 +6,5 @@ DIR=`dirname $0`
 
 black -l 79 \
     $DIR/../setup.py \
-    $DIR/../ipinfo_django
+    $DIR/../ipinfo_django \
+    $DIR/../tests

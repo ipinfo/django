@@ -10,7 +10,7 @@ You can visit our developer docs at https://ipinfo.io/developers.
 
 setup(
     name="ipinfo_django",
-    version="1.1.0",
+    version="1.2.0",
     description="Official Django library for IPinfo",
     long_description=long_description,
     url="https://github.com/ipinfo/django",
@@ -18,6 +18,6 @@ setup(
     author_email="support@ipinfo.io",
     license="Apache License 2.0",
     packages=["ipinfo_django"],
-    install_requires=["django", "ipinfo==3.0.0"],
+    install_requires=["django", "ipinfo==4.2.0"],
     zip_safe=False,
 )

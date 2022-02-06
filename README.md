@@ -11,7 +11,7 @@ Check all the data we have for your IP address [here](https://ipinfo.io/what-is-
 
 ### Getting Started
 
-You'll need an IPinfo API access token, which you can get by singing up for a free account at [https://ipinfo.io/signup](https://ipinfo.io/signup).
+You'll need an IPinfo API access token, which you can get by signing up for a free account at [https://ipinfo.io/signup](https://ipinfo.io/signup).
 
 The free plan is limited to 50,000 requests per month, and doesn't include some of the data fields such as IP type and company data. To enable all the data fields and additional request volumes see [https://ipinfo.io/pricing](https://ipinfo.io/pricing)
 
@@ -81,34 +81,48 @@ Setup can be accomplished in three steps:
 
 1. Install with `pip`
 
-    ```bash
-    pip install ipinfo_django
-    ```
+```bash
+pip install ipinfo_django
+```
 
-1. Add `'ipinfo_django.middleware.ipinfo'` to `settings.MIDDLEWARE` in `settings.py`:
+2. Add `'ipinfo_django.middleware.ipinfo'` to `settings.MIDDLEWARE` in `settings.py`:
 
-    ```python
-    MIDDLEWARE = [
-        'django.middleware.security.SecurityMiddleware',
-        'django.contrib.sessions.middleware.SessionMiddleware',
-        ...
-        'ipinfo_django.middleware.IPinfo',
-    ]
-    ```
+```python
+MIDDLEWARE = [
+  'django.middleware.security.SecurityMiddleware',
+  'django.contrib.sessions.middleware.SessionMiddleware',
+  ...
+  'ipinfo_django.middleware.IPinfo',
+]
+```
 
-1. Optionally, configure with custom settings in `settings.py`:
+3. Optionally, configure with custom settings in `settings.py`:
 
-    ```python
-    IPINFO_TOKEN = '123456789abc'
-    IPINFO_SETTINGS = {
-        'cache_options': {
-            'ttl':30,
-            'maxsize': 128
-        },
-        'countries_file': 'custom_countries.json'
-    }
-    IPINFO_FILTER = lambda request: request.scheme == 'http'
-    ```
+```python
+IPINFO_TOKEN = '123456789abc'
+IPINFO_SETTINGS = {
+  'cache_options': {
+      'ttl':30,
+      'maxsize': 128
+  },
+  'countries_file': 'custom_countries.json'
+}
+IPINFO_FILTER = lambda request: request.scheme == 'http'
+```
+   
+### Async support
+
+`'ipinfo_django.middleware.IPinfoAsyncMiddleware'` can be used under ASGI. This is an async-only middleware which works only when placed in an async middleware chain, that is, a chain of Django middleware which are both async and async capable. For example:
+
+```python
+MIDDLEWARE = [
+  'package_b.middleware.ExampleSyncAndAsyncMiddleware',
+  'ipinfo_django.middleware.IPinfoAsyncMiddleware',
+  'package_a.middleware.ExampleAsyncMiddleware',
+]
+```
+
+See [asynchronous-support](https://docs.djangoproject.com/en/4.0/topics/http/middleware/#asynchronous-support) for more.
 
 ### Details Data
 
@@ -271,6 +285,20 @@ IPINFO_FILTER = lambda request: request.scheme == 'http'
 If there's an error while making a request to IPinfo (e.g. your token was rate
 limited, there was a network issue, etc.), then the traceback will be logged
 using the built-in Python logger, and `HttpRequest.ipinfo` will be `None`.
+
+### Local development and testing
+
+To test the project locally, install Tox in your Python virtual environment:
+
+```bash
+pip install tox
+```
+
+Then, run Tox:
+
+```bash
+PYTHONPATH=. tox
+```
 
 ### Other Libraries
 
