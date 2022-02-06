@@ -28,7 +28,7 @@ class IPinfo(MiddlewareMixin):
             if self.filter and self.filter(request):
                 request.ipinfo = None
             else:
-                request.ipinfo = self.ipinfo.getDetails()
+                request.ipinfo = self.ipinfo.getDetails(get_ip(request))
         except Exception as exc:
             request.ipinfo = None
             LOGGER.error(traceback.format_exc())
