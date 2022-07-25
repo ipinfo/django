@@ -6,6 +6,7 @@ from django.conf import settings
 from django.utils.deprecation import MiddlewareMixin
 
 from ipinfo_django.helpers import is_bot, get_ip
+from ipinfo_django.iphandler.default import DefaultIPSelector
 
 LOGGER = logging.getLogger(__name__)
 
@@ -28,7 +29,8 @@ class IPinfo(MiddlewareMixin):
             if self.filter and self.filter(request):
                 request.ipinfo = None
             else:
-                request.ipinfo = self.ipinfo.getDetails(get_ip(request))
+                ips = DefaultIPSelector()
+                request.ipinfo = self.ipinfo.getDetails(ips.get_ip(request))
         except Exception as exc:
             request.ipinfo = None
             LOGGER.error(traceback.format_exc())
