@@ -5,7 +5,7 @@ Abstract interface for selecting IP from incoming request.
 import abc
 
 
-class IPHandlerInterface(metaclass=abc.ABCMeta):
+class IPSelectorInterface(metaclass=abc.ABCMeta):
     """Interface for selecting IP."""
 
     @abc.abstractmethod
