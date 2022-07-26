@@ -7,7 +7,7 @@ from ipinfo_django.helpers import get_ip
 
 
 class DefaultIPSelector(IPHandlerInterface):
-    """Default, IP handler."""
+    """Determine what IP to query for depending on whether we are behind a reverse proxy or not."""
     
     def get_ip(self, request):
         return get_ip(request)
