@@ -2,7 +2,7 @@
 A default iphandler implementation that returns IP to query for depending on whether we are behind a reverse proxy or not.
 """
 
-from .interface import IPHandlerInterface
+from .interface import IPSelectorInterface
 from ipinfo_django.helpers import get_ip
 
 

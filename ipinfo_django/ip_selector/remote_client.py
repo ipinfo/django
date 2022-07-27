@@ -2,7 +2,7 @@
 An IP selector implementation returning client IP from REMOTE_ADDR.
 """
 
-from .interface import IPHandlerInterface
+from .interface import IPSelectorInterface
 
 
 class ClientIPSelector(IPSelectorInterface):
