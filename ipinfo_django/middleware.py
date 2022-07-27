@@ -21,6 +21,7 @@ class IPinfo(MiddlewareMixin):
 
         ipinfo_token = getattr(settings, "IPINFO_TOKEN", None)
         ipinfo_settings = getattr(settings, "IPINFO_SETTINGS", {})
+        self.ipinfo_ip_selector = getattr(settings, "IPINFO_IP_SELECTOR", DefaultIPSelector())
         self.ipinfo = ipinfo.getHandler(ipinfo_token, **ipinfo_settings)
 
     def process_request(self, request):
@@ -29,8 +30,7 @@ class IPinfo(MiddlewareMixin):
             if self.filter and self.filter(request):
                 request.ipinfo = None
             else:
-                ip_selector = DefaultIPSelector()
-                request.ipinfo = self.ipinfo.getDetails(ip_selector.get_ip(request))
+                request.ipinfo = self.ipinfo.getDetails(self.ipinfo_ip_selector.get_ip(request))
         except Exception as exc:
             request.ipinfo = None
             LOGGER.error(traceback.format_exc())

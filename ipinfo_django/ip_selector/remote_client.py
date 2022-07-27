@@ -5,6 +5,10 @@ An IP selector implementation returning client IP from REMOTE_ADDR.
 from .interface import IPSelectorInterface
 
 
+REMOTE_ADDR = "REMOTE_ADDR"
+
 class ClientIPSelector(IPSelectorInterface):
-    """Returns client IP address from REMOTE_ADDR."""
-    return request.META.get(REMOTE_ADDR)
+    """Use client IP address from REMOTE_ADDR."""
+
+    def get_ip(self, request):
+        return request.META.get(REMOTE_ADDR)
