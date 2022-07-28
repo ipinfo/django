@@ -7,7 +7,7 @@ from ipinfo_django.helpers import HTTP_X_FORWARDED_FOR, REMOTE_ADDR
 
 
 class DefaultIPSelector(IPSelectorInterface):
-    """Default IP selector depending on whether we are behind a reverse proxy or not."""
+    """Default IP selector which uses IP depending on whether we are behind a reverse proxy or not."""
     
     def get_ip(self, request):
         """Determine what IP to query for depending on whether we are behind a reverse proxy or not."""
