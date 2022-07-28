@@ -3,9 +3,8 @@ An IP selector implementation returning client IP from REMOTE_ADDR.
 """
 
 from .interface import IPSelectorInterface
+from ipinfo_django.helpers import REMOTE_ADDR
 
-
-REMOTE_ADDR = "REMOTE_ADDR"
 
 class ClientIPSelector(IPSelectorInterface):
     """Use client IP address from REMOTE_ADDR."""
