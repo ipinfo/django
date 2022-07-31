@@ -108,6 +108,7 @@ IPINFO_SETTINGS = {
   'countries_file': 'custom_countries.json'
 }
 IPINFO_FILTER = lambda request: request.scheme == 'http'
+IPINFO_IP_SELECTOR = my_custom_ip_selector_implementation
 ```
    
 ### Async support
@@ -278,6 +279,51 @@ To use your own filter rules:
 
 ```python
 IPINFO_FILTER = lambda request: request.scheme == 'http'
+```
+
+### IP Selection Mechanism
+
+By default, the IP is used by ignoring the reverse proxies depending on whether we are behind a reverse proxy or not.
+
+Since the desired IP by your system may be in other locations, the IP selection mechanism is configurable and some alternative built-in options are available.
+
+#### Using built-in IP selectors
+
+- Default IP Selector
+- Client IP Selector
+
+##### Default IP selector
+
+A [DefaultIPSelector](https://github.com/ipinfo/django/blob/master/ipinfo_django/ip_selector/default.py) object is used by default if no IP selection mechanism is provided. It selects an IP address by trying to extract it from the `X-Forwarded-For` header. It will default to the source IP on the request if the header doesn't exist.
+
+This selector can be set explicitly by setting the `IPINFO_IP_SELECTOR` in `settings.py` file.
+
+```python
+from ipinfo_django.ip_selector.default import DefaultIPSelector
+
+IPINFO_IP_SELECTOR = DefaultIPSelector()
+```
+
+##### Client IP selector
+
+A [ClientIPSelector](https://github.com/ipinfo/django/blob/master/ipinfo_django/ip_selector/remote_client.py) returns the client IP address from the incoming request.
+
+This selector can be set by setting the `IPINFO_IP_SELECTOR` in `settings.py`file.
+
+```python
+from ipinfo_django.ip_selector.remote_client import ClientIPSelector
+
+IPINFO_IP_SELECTOR = ClientIPSelector()
+```
+
+#### Using a custom IP selector
+
+In case a custom IP selector is required, you may implement the [IPSelectorInterface](https://github.com/ipinfo/django/blob/master/ipinfo_django/ip_selector/interface.py) and pass the instance to `IPINFO_IP_SELECTOR` in `settings.py` file.
+
+For example:
+
+```python
+IPINFO_IP_SELECTOR = my_custom_ip_selector_implementation
 ```
 
 ### Errors

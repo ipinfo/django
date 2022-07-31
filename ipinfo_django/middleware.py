@@ -5,7 +5,8 @@ import ipinfo
 from django.conf import settings
 from django.utils.deprecation import MiddlewareMixin
 
-from ipinfo_django.helpers import is_bot, get_ip
+from ipinfo_django.helpers import is_bot
+from ipinfo_django.ip_selector.default import DefaultIPSelector
 
 LOGGER = logging.getLogger(__name__)
 
@@ -20,6 +21,7 @@ class IPinfo(MiddlewareMixin):
 
         ipinfo_token = getattr(settings, "IPINFO_TOKEN", None)
         ipinfo_settings = getattr(settings, "IPINFO_SETTINGS", {})
+        self.ipinfo_ip_selector = getattr(settings, "IPINFO_IP_SELECTOR", DefaultIPSelector())
         self.ipinfo = ipinfo.getHandler(ipinfo_token, **ipinfo_settings)
 
     def process_request(self, request):
@@ -28,7 +30,7 @@ class IPinfo(MiddlewareMixin):
             if self.filter and self.filter(request):
                 request.ipinfo = None
             else:
-                request.ipinfo = self.ipinfo.getDetails(get_ip(request))
+                request.ipinfo = self.ipinfo.getDetails(self.ipinfo_ip_selector.get_ip(request))
         except Exception as exc:
             request.ipinfo = None
             LOGGER.error(traceback.format_exc())
@@ -49,6 +51,7 @@ class IPinfoAsyncMiddleware:
 
         ipinfo_token = getattr(settings, "IPINFO_TOKEN", None)
         ipinfo_settings = getattr(settings, "IPINFO_SETTINGS", {})
+        self.ipinfo_ip_selector = getattr(settings, "IPINFO_IP_SELECTOR", DefaultIPSelector())
         self.ipinfo = ipinfo.getHandlerAsync(ipinfo_token, **ipinfo_settings)
 
     def __call__(self, request):
@@ -60,7 +63,7 @@ class IPinfoAsyncMiddleware:
             if self.filter and self.filter(request):
                 request.ipinfo = None
             else:
-                request.ipinfo = await self.ipinfo.getDetails(get_ip(request))
+                request.ipinfo = await self.ipinfo.getDetails(self.ipinfo_ip_selector.get_ip(request))
         except Exception:
             request.ipinfo = None
             LOGGER.error(traceback.format_exc())
