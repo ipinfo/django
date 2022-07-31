@@ -12,9 +12,9 @@ attrs==21.3.0 \
     --hash=sha256:50f3c9b216dc9021042f71b392859a773b904ce1a029077f58f6598272432045 \
     --hash=sha256:8f7335278dedd26b58c38e006338242cc0977f06d51579b2b8b87b9b33bff66c
     # via pytest
-django==4.0 \
-    --hash=sha256:59304646ebc6a77b9b6a59adc67d51ecb03c5e3d63ed1f14c909cdfda84e8010 \
-    --hash=sha256:d5a8a14da819a8b9237ee4d8c78dfe056ff6e8a7511987be627192225113ee75
+django==4.0.6 \
+    --hash=sha256:a67a793ff6827fd373555537dca0da293a63a316fe34cb7f367f898ccca3c3ae \
+    --hash=sha256:ca54ebedfcbc60d191391efbf02ba68fb52165b8bf6ccd6fe71f098cac1fe59e
     # via -r requirements.in
 iniconfig==1.1.1 \
     --hash=sha256:011e24c64b7f47f6ebd835bb12a743f2fbe9a26d4cecaa7f53bc4f35ee9da8b3 \
