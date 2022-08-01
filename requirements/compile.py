@@ -10,24 +10,24 @@ if __name__ == "__main__":
 
     subprocess.run(
         [
-            "python3.9",
+            "python3.10",
             *common_args,
             "-P",
-            "Django==3.1.4",
+            "Django==3.2",
             "-o",
-            "py39-django31.txt",
+            "py310-django32.txt",
         ],
         check=True,
     )
 
     subprocess.run(
         [
-            "python3.9",
+            "python3.10",
             *common_args,
             "-P",
             "Django==4.0",
             "-o",
-            "py39-django40.txt",
+            "py310-django40.txt",
         ],
         check=True,
     )
