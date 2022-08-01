@@ -6,7 +6,7 @@ from pathlib import Path
 if __name__ == "__main__":
     os.chdir(Path(__file__).parent)
     os.environ["CUSTOM_COMPILE_COMMAND"] = "requirements/compile.py"
-    common_args = ["-m", "piptools", "compile", "--generate-hashes"] + sys.argv[1:]
+    common_args = ["-m", "piptools", "compile", "-U", "--generate-hashes"] + sys.argv[1:]
 
     subprocess.run(
         [
