@@ -11,7 +11,7 @@ from ipinfo_django.ip_selector.default import DefaultIPSelector
 LOGGER = logging.getLogger(__name__)
 
 
-class IPinfo(MiddlewareMixin):
+class IPinfoMiddleware:
     def __init__(self, get_response=None):
         """
         Initializes class while gettings user settings and creating the cache.
@@ -26,7 +26,7 @@ class IPinfo(MiddlewareMixin):
         )
         self.ipinfo = ipinfo.getHandler(ipinfo_token, **ipinfo_settings)
 
-    def process_request(self, request):
+    def __call__(self, request):
         """Middleware hook that acts on and modifies request object."""
         try:
             if self.filter and self.filter(request):
@@ -38,6 +38,9 @@ class IPinfo(MiddlewareMixin):
         except Exception as exc:
             request.ipinfo = None
             LOGGER.error(traceback.format_exc())
+
+        response = self.get_response(request)
+        return response
 
     def is_bot(self, request):
         return is_bot(request)

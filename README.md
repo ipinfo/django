@@ -85,14 +85,14 @@ Setup can be accomplished in three steps:
 pip install ipinfo_django
 ```
 
-2. Add `'ipinfo_django.middleware.ipinfo'` to `settings.MIDDLEWARE` in `settings.py`:
+2. Add `'ipinfo_django.middleware.IPinfoMiddleware'` to `settings.MIDDLEWARE` in `settings.py`:
 
 ```python
 MIDDLEWARE = [
   'django.middleware.security.SecurityMiddleware',
   'django.contrib.sessions.middleware.SessionMiddleware',
   ...
-  'ipinfo_django.middleware.IPinfo',
+  'ipinfo_django.middleware.IPinfoMiddleware',
 ]
 ```
 
