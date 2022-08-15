@@ -28,6 +28,7 @@ Once configured, `ipinfo_django` will make IP address data accessible within Dja
 ```python
 from django.http import HttpResponse
 
+
 def location(request):
     response_string = 'The IP address {} is located at the coordinates {}, which is in the city {}.'.format(
         request.ipinfo.ip,
@@ -47,10 +48,9 @@ will return the following as an `HttpResponse` object:
 To get the details of user defined IP, we will import ipinfo package directly to the `view.py` file:
 ```python
 from django.shortcuts import render
-from django.http import HttpResponse 
+from django.http import HttpResponse
 from django.conf import settings
 import ipinfo
-
 
 
 def get_ip_details(ip_address=None):
@@ -60,17 +60,14 @@ def get_ip_details(ip_address=None):
 	ip_data = ip_data.getDetails(ip_address)
 	return ip_data
 
-def location(request): 
-
+def location(request):
 	ip_data = get_ip_details('168.156.54.5')
-
 	response_string = 'The IP address {} is located at the coordinates {}, which is in the city {}.'.format(ip_data.ip,ip_data.loc,ip_data.city)
-
 	return HttpResponse(response_string)
-
 ```
 
 The above code will print the IP details provide. We can use GET and POST methods to get the details of user defined IP
+
 ```python
 'The IP address 168.156.54.5 is located at the coordinates 47.6104,-122.2007, which is in the city Bellevue.'
 ```
@@ -110,7 +107,7 @@ IPINFO_SETTINGS = {
 IPINFO_FILTER = lambda request: request.scheme == 'http'
 IPINFO_IP_SELECTOR = my_custom_ip_selector_implementation
 ```
-   
+
 ### Async support
 
 `'ipinfo_django.middleware.IPinfoAsyncMiddleware'` can be used under ASGI. This is an async-only middleware which works only when placed in an async middleware chain, that is, a chain of Django middleware which are both async and async capable. For example:
