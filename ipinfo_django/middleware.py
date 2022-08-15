@@ -3,7 +3,6 @@ import traceback
 
 import ipinfo
 from django.conf import settings
-from django.utils.deprecation import MiddlewareMixin
 
 from ipinfo_django.helpers import is_bot
 from ipinfo_django.ip_selector.default import DefaultIPSelector
