@@ -18,6 +18,6 @@ setup(
     author_email="support@ipinfo.io",
     license="Apache License 2.0",
     packages=["ipinfo_django", "ipinfo_django.ip_selector"],
-    install_requires=["django", "ipinfo==4.2.1"],
+    install_requires=["django", "ipinfo>=5.2.0"],
     zip_safe=False,
 )
