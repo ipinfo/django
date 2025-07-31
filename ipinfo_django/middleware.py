@@ -20,9 +20,7 @@ class IPinfoMiddleware:
 
         ipinfo_token = getattr(settings, "IPINFO_TOKEN", None)
         ipinfo_settings = getattr(settings, "IPINFO_SETTINGS", {})
-        self.ip_selector = getattr(
-            settings, "IPINFO_IP_SELECTOR", DefaultIPSelector()
-        )
+        self.ip_selector = getattr(settings, "IPINFO_IP_SELECTOR", DefaultIPSelector())
         self.ipinfo = ipinfo.getHandler(ipinfo_token, **ipinfo_settings)
 
     def __call__(self, request):
@@ -34,7 +32,7 @@ class IPinfoMiddleware:
                 request.ipinfo = self.ipinfo.getDetails(
                     self.ip_selector.get_ip(request)
                 )
-        except Exception as exc:
+        except Exception:
             request.ipinfo = None
             LOGGER.error(traceback.format_exc())
 
@@ -57,9 +55,7 @@ class IPinfoAsyncMiddleware:
 
         ipinfo_token = getattr(settings, "IPINFO_TOKEN", None)
         ipinfo_settings = getattr(settings, "IPINFO_SETTINGS", {})
-        self.ip_selector = getattr(
-            settings, "IPINFO_IP_SELECTOR", DefaultIPSelector()
-        )
+        self.ip_selector = getattr(settings, "IPINFO_IP_SELECTOR", DefaultIPSelector())
         self.ipinfo = ipinfo.getHandlerAsync(ipinfo_token, **ipinfo_settings)
 
     def __call__(self, request):
@@ -83,3 +79,23 @@ class IPinfoAsyncMiddleware:
 
     def is_bot(self, request):
         return is_bot(request)
+
+
+class IPinfoLiteMiddleware(IPinfoMiddleware):
+    def __init__(self, get_response):
+        super().__init__(get_response=get_response)
+
+        ipinfo_token = getattr(settings, "IPINFO_TOKEN", None)
+        ipinfo_settings = getattr(settings, "IPINFO_SETTINGS", {})
+        self.ipinfo = ipinfo.getHandlerLite(ipinfo_token, **ipinfo_settings)
+
+
+class IPinfoAsyncLiteMiddleware(IPinfoAsyncMiddleware):
+    sync_capable = False
+    async_capable = True
+
+    def __init__(self, get_response):
+        super().__init__(get_response=get_response)
+        ipinfo_token = getattr(settings, "IPINFO_TOKEN", None)
+        ipinfo_settings = getattr(settings, "IPINFO_SETTINGS", {})
+        self.ipinfo = ipinfo.getHandlerAsyncLite(ipinfo_token, **ipinfo_settings)
