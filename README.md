@@ -15,7 +15,7 @@ You'll need an IPinfo API access token, which you can get by signing up for a fr
 
 The free plan is limited to 50,000 requests per month, and doesn't include some of the data fields such as IP type and company data. To enable all the data fields and additional request volumes see [https://ipinfo.io/pricing](https://ipinfo.io/pricing)
 
-⚠️ Note: This library does not currently support our newest free API https://ipinfo.io/lite. If you’d like to use IPinfo Lite, you can call the [endpoint directly](https://ipinfo.io/developers/lite-api) using your preferred HTTP client. Developers are also welcome to contribute support for Lite by submitting a pull request.
+The library also supports the Lite API, see the [Lite API section](#lite-api) for more info.
 
 #### Installation
 
@@ -48,6 +48,7 @@ will return the following as an `HttpResponse` object:
 ```
 
 To get the details of a user-defined IP, we will import the ipinfo package directly to the `view.py` file:
+
 ```python
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -207,7 +208,7 @@ IPINFO_TOKEN = '123456789abc'
 
 ### Caching
 
-In-memory caching of `details` data is provided by default via the `cachetools <https://cachetools.readthedocs.io/en/latest/>`_ library. This uses an LRU (least recently used) cache with a TTL (time to live) by default. This means that values will be cached for the specified duration; if the cache's max size is reached, cache values will be invalidated as necessary, starting with the oldest cached value.
+In-memory caching of `details` data is provided by default via the `cachetools <https://cachetools.readthedocs.io/en/latest/>`\_ library. This uses an LRU (least recently used) cache with a TTL (time to live) by default. This means that values will be cached for the specified duration; if the cache's max size is reached, cache values will be invalidated as necessary, starting with the oldest cached value.
 
 #### Modifying cache options
 
@@ -269,10 +270,10 @@ To turn off filtering:
 IPINFO_FILTER = None
 ```
 
-To set your own filtering rules, *thereby replacing the default filter*, you can set `settings.IPINFO_FILTER` to your own, custom callable function which satisfies the following rules:
+To set your own filtering rules, _thereby replacing the default filter_, you can set `settings.IPINFO_FILTER` to your own, custom callable function which satisfies the following rules:
 
 - Accepts one request.
-- Returns *True to filter out, False to allow lookup*
+- Returns _True to filter out, False to allow lookup_
 
 To use your own filter rules:
 
@@ -330,6 +331,25 @@ IPINFO_IP_SELECTOR = my_custom_ip_selector_implementation
 If there's an error while making a request to IPinfo (e.g. your token was rate
 limited, there was a network issue, etc.), then the traceback will be logged
 using the built-in Python logger, and `HttpRequest.ipinfo` will be `None`.
+
+### Lite API
+
+The library gives the possibility to use the [Lite API](https://ipinfo.io/developers/lite-api) too, authentication with your token is still required.
+
+The IP details returned are slightly different from the Core API middleware, though the arguments are identical.
+
+To use it add `'ipinfo_django.middleware.IPinfoLiteMiddleware'` to `settings.MIDDLEWARE` in `settings.py`:
+
+```python
+MIDDLEWARE = [
+  'django.middleware.security.SecurityMiddleware',
+  'django.contrib.sessions.middleware.SessionMiddleware',
+  ...
+  'ipinfo_django.middleware.IPinfoLiteMiddleware',
+]
+```
+
+We also provide an async Lite API middleware to be used under ASGI. Use `'ipinfo_django.middleware.IPinfoAsyncLiteMiddleware` in that case.
 
 ### Local development and testing
 
