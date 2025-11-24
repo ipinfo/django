@@ -119,3 +119,23 @@ class IPinfoAsyncCoreMiddleware(IPinfoAsyncMiddleware):
         ipinfo_token = getattr(settings, "IPINFO_TOKEN", None)
         ipinfo_settings = getattr(settings, "IPINFO_SETTINGS", {})
         self.ipinfo = ipinfo.getHandlerAsyncCore(ipinfo_token, **ipinfo_settings)
+
+
+class IPinfoPlusMiddleware(IPinfoMiddleware):
+    def __init__(self, get_response):
+        super().__init__(get_response=get_response)
+
+        ipinfo_token = getattr(settings, "IPINFO_TOKEN", None)
+        ipinfo_settings = getattr(settings, "IPINFO_SETTINGS", {})
+        self.ipinfo = ipinfo.getHandlerPlus(ipinfo_token, **ipinfo_settings)
+
+
+class IPinfoAsyncPlusMiddleware(IPinfoAsyncMiddleware):
+    sync_capable = False
+    async_capable = True
+
+    def __init__(self, get_response):
+        super().__init__(get_response=get_response)
+        ipinfo_token = getattr(settings, "IPINFO_TOKEN", None)
+        ipinfo_settings = getattr(settings, "IPINFO_SETTINGS", {})
+        self.ipinfo = ipinfo.getHandlerAsyncPlus(ipinfo_token, **ipinfo_settings)

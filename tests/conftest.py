@@ -41,3 +41,17 @@ def ipinfo_async_core_middleware(settings):
     settings.MIDDLEWARE = [
         "ipinfo_django.middleware.IPinfoAsyncCoreMiddleware",
     ]
+
+
+@pytest.fixture
+def ipinfo_plus_middleware(settings):
+    settings.MIDDLEWARE = [
+        "ipinfo_django.middleware.IPinfoPlusMiddleware",
+    ]
+
+
+@pytest.fixture
+def ipinfo_async_plus_middleware(settings):
+    settings.MIDDLEWARE = [
+        "ipinfo_django.middleware.IPinfoAsyncPlusMiddleware",
+    ]
