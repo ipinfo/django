@@ -139,3 +139,74 @@ class IPinfoAsyncPlusMiddleware(IPinfoAsyncMiddleware):
         ipinfo_token = getattr(settings, "IPINFO_TOKEN", None)
         ipinfo_settings = getattr(settings, "IPINFO_SETTINGS", {})
         self.ipinfo = ipinfo.getHandlerAsyncPlus(ipinfo_token, **ipinfo_settings)
+
+
+class IPinfoResproxyMiddleware:
+    def __init__(self, get_response=None):
+        """
+        Initializes class while gettings user settings and creating the cache.
+        """
+        self.get_response = get_response
+        self.filter = getattr(settings, "IPINFO_FILTER", self.is_bot)
+
+        ipinfo_token = getattr(settings, "IPINFO_TOKEN", None)
+        ipinfo_settings = getattr(settings, "IPINFO_SETTINGS", {})
+        self.ip_selector = getattr(settings, "IPINFO_IP_SELECTOR", DefaultIPSelector())
+        self.ipinfo = ipinfo.getHandler(ipinfo_token, **ipinfo_settings)
+
+    def __call__(self, request):
+        """Middleware hook that acts on and modifies request object."""
+        try:
+            if self.filter and self.filter(request):
+                request.ipinfo_resproxy = None
+            else:
+                request.ipinfo_resproxy = self.ipinfo.getResproxy(
+                    self.ip_selector.get_ip(request)
+                )
+        except Exception:
+            request.ipinfo_resproxy = None
+            LOGGER.error(traceback.format_exc())
+
+        response = self.get_response(request)
+        return response
+
+    def is_bot(self, request):
+        return is_bot(request)
+
+
+class IPinfoAsyncResproxyMiddleware:
+    sync_capable = False
+    async_capable = True
+
+    def __init__(self, get_response):
+        """Initialize class, get settings, and create the cache."""
+        self.get_response = get_response
+
+        self.filter = getattr(settings, "IPINFO_FILTER", self.is_bot)
+
+        ipinfo_token = getattr(settings, "IPINFO_TOKEN", None)
+        ipinfo_settings = getattr(settings, "IPINFO_SETTINGS", {})
+        self.ip_selector = getattr(settings, "IPINFO_IP_SELECTOR", DefaultIPSelector())
+        self.ipinfo = ipinfo.getHandlerAsync(ipinfo_token, **ipinfo_settings)
+
+    def __call__(self, request):
+        return self.__acall__(request)
+
+    async def __acall__(self, request):
+        """Middleware hook that acts on and modifies request object."""
+        try:
+            if self.filter and self.filter(request):
+                request.ipinfo_resproxy = None
+            else:
+                request.ipinfo_resproxy = await self.ipinfo.getResproxy(
+                    self.ip_selector.get_ip(request)
+                )
+        except Exception:
+            request.ipinfo_resproxy = None
+            LOGGER.error(traceback.format_exc())
+
+        response = await self.get_response(request)
+        return response
+
+    def is_bot(self, request):
+        return is_bot(request)

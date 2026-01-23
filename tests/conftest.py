@@ -55,3 +55,17 @@ def ipinfo_async_plus_middleware(settings):
     settings.MIDDLEWARE = [
         "ipinfo_django.middleware.IPinfoAsyncPlusMiddleware",
     ]
+
+
+@pytest.fixture
+def ipinfo_resproxy_middleware(settings):
+    settings.MIDDLEWARE = [
+        "ipinfo_django.middleware.IPinfoResproxyMiddleware",
+    ]
+
+
+@pytest.fixture
+def ipinfo_async_resproxy_middleware(settings):
+    settings.MIDDLEWARE = [
+        "ipinfo_django.middleware.IPinfoAsyncResproxyMiddleware",
+    ]
