@@ -351,6 +351,69 @@ MIDDLEWARE = [
 
 We also provide an async Lite API middleware to be used under ASGI. Use `'ipinfo_django.middleware.IPinfoAsyncLiteMiddleware` in that case.
 
+### Core API
+
+The library also supports the [Core API](https://ipinfo.io/developers/data-types#core-data), which provides city-level geolocation with nested geo and AS objects. Authentication with your token is required.
+
+To use it add `'ipinfo_django.middleware.IPinfoCoreMiddleware'` to `settings.MIDDLEWARE` in `settings.py`:
+
+```python
+MIDDLEWARE = [
+  'django.middleware.security.SecurityMiddleware',
+  'django.contrib.sessions.middleware.SessionMiddleware',
+  ...
+  'ipinfo_django.middleware.IPinfoCoreMiddleware',
+]
+```
+
+We also provide an async Core API middleware to be used under ASGI. Use `'ipinfo_django.middleware.IPinfoAsyncCoreMiddleware` in that case.
+
+### Plus API
+
+The library also supports the [Plus API](https://ipinfo.io/developers/data-types#plus-data), which provides enhanced data including mobile carrier info and privacy detection. Authentication with your token is required.
+
+To use it add `'ipinfo_django.middleware.IPinfoPlusMiddleware'` to `settings.MIDDLEWARE` in `settings.py`:
+
+```python
+MIDDLEWARE = [
+  'django.middleware.security.SecurityMiddleware',
+  'django.contrib.sessions.middleware.SessionMiddleware',
+  ...
+  'ipinfo_django.middleware.IPinfoPlusMiddleware',
+]
+```
+
+We also provide an async Plus API middleware to be used under ASGI. Use `'ipinfo_django.middleware.IPinfoAsyncPlusMiddleware` in that case.
+
+### Residential Proxy API
+
+The library also supports the [Residential Proxy API](https://ipinfo.io/developers/residential-proxy-api), which allows you to check if an IP address is a residential proxy. Authentication with your token is required.
+
+To use it add `'ipinfo_django.middleware.IPinfoResproxyMiddleware'` to `settings.MIDDLEWARE` in `settings.py`:
+
+```python
+MIDDLEWARE = [
+  'django.middleware.security.SecurityMiddleware',
+  'django.contrib.sessions.middleware.SessionMiddleware',
+  ...
+  'ipinfo_django.middleware.IPinfoResproxyMiddleware',
+]
+```
+
+The residential proxy details will be available through `request.ipinfo_resproxy`:
+
+```python
+def my_view(request):
+    resproxy = request.ipinfo_resproxy
+    if resproxy:
+        print(resproxy.ip)  # 175.107.211.204
+        print(resproxy.last_seen)  # 2025-01-20
+        print(resproxy.percent_days_seen)  # 0.85
+        print(resproxy.service)  # Bright Data
+```
+
+We also provide an async Residential Proxy API middleware to be used under ASGI. Use `'ipinfo_django.middleware.IPinfoAsyncResproxyMiddleware` in that case.
+
 ### Local development and testing
 
 To test the project locally, install Tox in your Python virtual environment:
