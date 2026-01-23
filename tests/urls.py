@@ -11,4 +11,19 @@ async def test_view(request):
     return HttpResponse("Request filtered.", status=200)
 
 
-urlpatterns = [path("test_view/", test_view)]
+async def test_resproxy_view(request):
+    ipinfo_resproxy = getattr(request, "ipinfo_resproxy", None)
+
+    if ipinfo_resproxy:
+        ip = getattr(ipinfo_resproxy, "ip", None)
+        if ip:
+            return HttpResponse(f"Resproxy for: {ip}", status=200)
+        return HttpResponse("Empty resproxy response.", status=200)
+
+    return HttpResponse("Request filtered.", status=200)
+
+
+urlpatterns = [
+    path("test_view/", test_view),
+    path("test_resproxy_view/", test_resproxy_view),
+]
